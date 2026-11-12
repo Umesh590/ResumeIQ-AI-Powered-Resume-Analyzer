@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://interviewai-backend-abdu.onrender.com",
   withCredentials: true,
 });
 
@@ -12,7 +12,6 @@ export async function register({ username, email, password }) {
       email,
       password,
     });
-
     return response.data;
   } catch (err) {
     console.error("Registration error:", err);
@@ -26,7 +25,6 @@ export async function login({ email, password }) {
       email,
       password,
     });
-
     return response.data;
   } catch (err) {
     console.error("Login error:", err);
