@@ -1,0 +1,163 @@
+/* ================= MAIN FOOTER ================= */
+
+.main-footer {
+  background: linear-gradient(145deg, #171923, #11131d);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a5a7b4;
+  padding: 40px 5% 0;
+}
+
+.footer-container {
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 35px;
+  padding-bottom: 28px;
+}
+
+/* Logo */
+
+.footer-logo {
+  color: #fff;
+  font-size: 23px;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+
+  span {
+    color: #ec4899;
+  }
+}
+
+/* Brand description */
+
+.footer-brand p {
+  max-width: 350px;
+  margin-top: 10px;
+  line-height: 1.5;
+  font-size: 13px;
+  color: #a5a7b4;
+}
+
+/* Footer links */
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 5px;
+  }
+
+  a {
+    color: #a5a7b4;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.4;
+    width: fit-content;
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      color: #ec4899;
+      transform: translateX(3px);
+    }
+  }
+}
+
+/* Bottom footer */
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 15px 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #85899a;
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 900px) {
+  .main-footer {
+    padding: 32px 4% 0;
+  }
+
+  .footer-container {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 22px;
+    padding-bottom: 24px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+  .main-footer {
+    padding: 25px 18px 0;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 14px;
+    padding-bottom: 20px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-logo {
+    font-size: 21px;
+  }
+
+  .footer-brand p {
+    max-width: 100%;
+    margin-top: 7px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .footer-links {
+    gap: 6px;
+
+    h3 {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    a {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+  }
+
+  .footer-bottom {
+    padding: 13px 0;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 360px) {
+  .main-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .footer-container {
+    gap: 17px 10px;
+  }
+
+  .footer-links a {
+    font-size: 11px;
+  }
+}
