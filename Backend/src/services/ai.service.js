@@ -152,18 +152,24 @@ async function generateInterviewReport({
   const prompt = `
 You are an expert technical interviewer and career advisor.
 
+
 Analyze the candidate's resume against the job description.
+
 
 CANDIDATE RESUME:
 ${resume}
 
+
 CANDIDATE SELF DESCRIPTION:
 ${selfDescription}
+
 
 JOB DESCRIPTION:
 ${jobDescription}
 
+
 INSTRUCTIONS:
+
 
 1. Generate a realistic match score between 0 and 100.
 2. Generate 3 important technical interview questions.
@@ -179,8 +185,10 @@ INSTRUCTIONS:
 12. Keep answers concise, clear and useful.
 13. Return valid JSON only.
 
+
 IMPORTANT:
 Use these exact JSON field names:
+
 
 {
   "title": "Job role",
@@ -205,6 +213,7 @@ Use these exact JSON field names:
     "Day 7: Mock interview"
   ]
 }
+
 
 The technical question, intention and answer arrays must have equal lengths.
 The behavioral question, intention and answer arrays must have equal lengths.
@@ -282,7 +291,8 @@ async function generatePdfFromHtml(htmlContent) {
     const page = await browser.newPage();
 
     await page.setContent(htmlContent, {
-      waitUntil: "networkidle0",
+      waitUntil: "load",
+      timeout: 60000,
     });
 
     const pdfBuffer = await page.pdf({
@@ -311,9 +321,16 @@ async function generatePdfFromHtml(htmlContent) {
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
   const prompt = `
-You are an expert resume writer.
+You are an expert ATS resume writer, professional career consultant,
+and technical recruiter.
 
-Create a professional, ATS-friendly resume in HTML.
+YOUR PRIMARY OBJECTIVE:
+Transform the candidate's existing resume into a stronger,
+professional, ATS-friendly, job-specific resume.
+
+IMPORTANT: This is a resume improvement task, NOT a resume
+recreation task. Preserve the candidate's original information
+before making any improvements.
 
 CANDIDATE RESUME:
 ${resume}
@@ -321,16 +338,184 @@ ${resume}
 CANDIDATE SELF DESCRIPTION:
 ${selfDescription}
 
-JOB DESCRIPTION:
+TARGET JOB DESCRIPTION:
 ${jobDescription}
 
-INSTRUCTIONS:
 
-1. Create a clean, professional resume.
-2. Use simple HTML and inline CSS.
-3. Make the resume ATS-friendly.
-4. Do not invent experience, education, skills, or achievements.
-5. Return valid JSON containing one field named html.
+==================================================
+STEP 1: ANALYZE THE JOB DESCRIPTION
+==================================================
+
+Identify:
+- Target job title
+- Required technical skills
+- Preferred technical skills
+- Tools and technologies
+- Key responsibilities
+- Important ATS keywords
+
+
+==================================================
+STEP 2: ANALYZE THE ORIGINAL RESUME
+==================================================
+
+Extract and understand ALL information, including:
+
+- Candidate name and contact information
+- Professional summary
+- Every technical skill and technology
+- Every employment and internship entry
+- Company names, job titles, locations and employment dates
+- All experience descriptions and responsibilities
+- Every project name and project date
+- Every project technology and description
+- Education, institutions, graduation dates and CGPA
+- School details, percentages and academic qualifications
+- Certifications, achievements and extracurricular activities
+
+Do not overlook information simply because it is not directly
+related to the target job.
+
+
+==================================================
+STEP 3: STRICT INFORMATION PRESERVATION
+==================================================
+
+These rules have the highest priority.
+
+1. Preserve every genuine and useful section from the original resume.
+
+2. NEVER remove project dates, internship dates, employment dates,
+   company names, job titles, locations, CGPA, percentages,
+   certifications or achievements.
+
+3. Preserve ALL original projects. You may change their order
+   according to relevance, but do not delete a project simply
+   because another project is more relevant.
+
+4. Preserve ALL genuine technical skills. You may reorganize
+   and prioritize them according to the target job description,
+   but do not silently remove existing skills.
+
+5. Preserve the candidate's original responsibilities,
+   contributions and technical details.
+
+6. Never replace specific original information with vague
+   descriptions.
+
+7. Do not remove a section just to make the resume shorter.
+
+8. You may improve grammar, sentence structure, clarity,
+   professional language and formatting without changing
+   the original meaning.
+
+9. If information is incomplete or unclear, preserve the
+   available information rather than guessing.
+
+10. Do not duplicate information unnecessarily.
+
+
+==================================================
+STEP 4: JOB-SPECIFIC RESUME IMPROVEMENT
+==================================================
+
+PROFESSIONAL SUMMARY:
+- Write a new summary specifically for the target role.
+- Highlight the candidate's most relevant genuine skills.
+- Mention relevant experience and projects.
+- Incorporate supported keywords from the job description.
+- Avoid generic statements and unsupported claims.
+
+TECHNICAL SKILLS:
+- Organize skills into relevant categories.
+- Prioritize skills required by the target job.
+- Retain all genuine original skills.
+- Never add a skill only because it appears in the job description.
+
+EXPERIENCE:
+- Improve existing bullet points using professional language.
+- Highlight genuine technical responsibilities and contributions.
+- Use strong action verbs where appropriate.
+- Preserve company names, roles, locations and dates.
+- Do not invent metrics or achievements.
+
+PROJECTS:
+- Preserve every original project.
+- Preserve project names, dates and technology stacks.
+- Reorder projects based on relevance to the target role.
+- Improve descriptions to explain actual implementation,
+  technical decisions and genuine features.
+- Highlight relevant technologies naturally.
+- Do not invent functionality or technical contributions.
+
+EDUCATION:
+- Preserve degree, institution, location, dates, CGPA,
+  school details and percentages.
+
+CERTIFICATIONS AND ACHIEVEMENTS:
+- Preserve every original certification and achievement.
+- Do not change certificate names or award details.
+
+
+==================================================
+STEP 5: ATS OPTIMIZATION
+==================================================
+
+- Naturally incorporate relevant job-description keywords.
+- Use exact technology names where supported by the resume.
+- Prefer standard section headings.
+- Use clear, readable bullet points.
+- Avoid keyword stuffing.
+- Do not claim skills or experience the candidate does not have.
+- Optimize for both ATS readability and human recruiters.
+
+
+==================================================
+STEP 6: FINAL VALIDATION BEFORE OUTPUT
+==================================================
+
+Before generating the HTML, internally verify:
+
+- Is the candidate's contact information unchanged?
+- Are all original projects present?
+- Are all original project dates preserved?
+- Are all employment and internship dates preserved?
+- Are all original technical skills retained?
+- Are education details, CGPA and percentages preserved?
+- Are all certifications and achievements retained?
+- Have descriptions been genuinely improved?
+- Are job-specific keywords included only when supported?
+- Have any unsupported claims or invented details been added?
+
+If any useful original information is missing, restore it
+before generating the final resume.
+
+
+==================================================
+STEP 7: HTML AND DESIGN REQUIREMENTS
+==================================================
+
+- Generate a complete professional resume in HTML.
+- Use semantic HTML elements and inline CSS.
+- Use standard headings:
+  Professional Summary
+  Technical Skills
+  Experience
+  Projects
+  Education
+  Certifications & Achievements
+- Use a clean, single-column layout.
+- Use readable fonts and consistent spacing.
+- Avoid tables, icons, graphics and complex layouts.
+- Make the resume suitable for ATS parsing and PDF printing.
+- Use professional and consistent date formatting.
+- Keep the design clean without unnecessarily reducing
+  the original resume's useful content.
+- Do not include explanations or analysis outside the resume.
+
+OUTPUT REQUIREMENTS:
+Return valid JSON containing exactly one field named "html".
+The html field must contain the complete generated resume.
 `;
 
   try {
